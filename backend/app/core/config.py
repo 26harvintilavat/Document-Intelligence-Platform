@@ -1,4 +1,5 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pathlib import Path
 
 class Settings(BaseSettings):
     app_name: str = "Document Intelligence Platform"
@@ -6,8 +7,14 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     environment: str = "development"
 
-    class Config:
-        env_file = ".env"
+    upload_dir : Path = Path("app/storage/uploads")
+    document_index_path: Path = Path("app/storage/documents.json")
+    max_upload_size_mb: int = 25
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
 
 settings = Settings()
 
