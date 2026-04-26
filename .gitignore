@@ -27,3 +27,8 @@ Thumbs.db
 
 # Uploads
 backend/app/storage/uploads/
+
+# Uploaded files and local document metadata
+backend/app/storage/uploads/*
+!backend/app/storage/uploads/.gitkeep
+backend/app/storage/documents.json
