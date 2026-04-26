@@ -1,7 +1,7 @@
 from pathlib import Path
 import fitz # PyMuPDF
 
-EXTRACTED_TEXT_DIR = Path("backend/app/storage/extracted_text")
+EXTRACTED_TEXT_DIR = Path("app/storage/extracted_text")
 
 def extract_text_from_pdf(pdf_path: str, document_id: str) -> str:
     EXTRACTED_TEXT_DIR.mkdir(parents=True, exist_ok=True)
