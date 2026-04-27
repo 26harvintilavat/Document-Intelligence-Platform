@@ -8,6 +8,9 @@ from app.services.document_storage_service import (
 )
 from app.services.pdf_text_extraction_service import extract_text_from_pdf
 
+from app.schemas.chunk import ChunkDocumentResponse, ChunkListResponse
+from app.services.chunking_service import chunk_document, load_chunks
+
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
 @router.post("/upload", response_model=UploadDocumentsResponse)
@@ -67,3 +70,23 @@ def extract_document_text(document_id: str):
             status_code=500,
             detail=f"Failed to extract text from PDF: {str(error)}",
         )
+    
+@router.post("/{document_id}/chunk", response_model=ChunkDocumentResponse)
+def chunk_uploaded_document(document_id: str):
+    chunks = chunk_document(document_id)
+
+    return ChunkDocumentResponse(
+        document_id=document_id,
+        chunk_count=len(chunks),
+        chunks=chunks
+    )
+
+@router.get("/{document_id}/chunks", response_model=ChunkListResponse)
+def get_document_chunks(document_id: str):
+    chunks = load_chunks(document_id)
+
+    return ChunkListResponse(
+        document_id=document_id,
+        chunk_count=len(chunks),
+        chunks=chunks
+    )

@@ -1,10 +1,9 @@
 from pathlib import Path
 import fitz # PyMuPDF
-
-EXTRACTED_TEXT_DIR = Path("app/storage/extracted_text")
+from app.core.config import settings
 
 def extract_text_from_pdf(pdf_path: str, document_id: str) -> str:
-    EXTRACTED_TEXT_DIR.mkdir(parents=True, exist_ok=True)
+    settings.extracted_text_dir.mkdir(parents=True, exist_ok=True)
 
     pdf_file_path = Path(pdf_path)
 
@@ -23,7 +22,7 @@ def extract_text_from_pdf(pdf_path: str, document_id: str) -> str:
 
     pdf_document.close()
 
-    output_file_path = EXTRACTED_TEXT_DIR / f"{document_id}.txt"
+    output_file_path = settings.extracted_text_dir / f"{document_id}.txt"
 
     output_file_path.write_text(
         "\n".join(extracted_text),
